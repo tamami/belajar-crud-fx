@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.joda.time.DateTime;
 
 import static lab.aikibo.MainUI.getMhsUI;
 import static lab.aikibo.MainUI.getPrimaryStage;
@@ -18,8 +19,10 @@ import static lab.aikibo.MainUI.getPrimaryStage;
  */
 public class EntryDataUI {
 
-    Scene entryScene;
+    public static final int ADD_DATA = 1;
+    public static final int EDIT_DATA = 2;
 
+    Scene entryScene;
     GridPane gridPane;
 
     TextField tfNim;
@@ -36,6 +39,8 @@ public class EntryDataUI {
     TextArea taAlamat;
     Button btnSimpan;
     Button btnHapus;
+
+    int state;
 
     public EntryDataUI() {
         getPrimaryStage().setTitle("Entry Data");
@@ -93,7 +98,10 @@ public class EntryDataUI {
         entryScene = new Scene(gridPane, 300, 350);
     }
 
-    public void show() {
+    public void show(int state) {
+        if(state == EntryDataUI.ADD_DATA) {
+            tfNim.clear();
+        }
         getPrimaryStage().setScene(entryScene);
         getPrimaryStage().show();
     }
@@ -104,6 +112,16 @@ public class EntryDataUI {
     private class BtnSimpanOnClick implements EventHandler<ActionEvent> {
 
         public void handle(ActionEvent event) {
+            if(getMhsUI().isExists(tfNim.getText())) {
+
+            } else {
+                Mahasiswa mhs = new Mahasiswa();
+                mhs.setNim(tfNim.getText());
+                mhs.setNama(tfNama.getText());
+                mhs.setTempatLahir(tfTempatLahir.getText());
+                mhs.setTanggalLahir(new DateTime(dpTglLahir.getValue().getYear(),
+                    dpTglLahir.getValue().getMonthValue(), dpTglLahir.getValue().getDayOfMonth(), 0, 0));
+            }
             getMhsUI().show();
         }
     }

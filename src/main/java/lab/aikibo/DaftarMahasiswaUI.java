@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import org.joda.time.DateTime;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import static lab.aikibo.MainUI.getPrimaryStage;
@@ -92,13 +93,25 @@ public class DaftarMahasiswaUI {
         getPrimaryStage().show();
     }
 
+    public boolean isExists(String nim) {
+        Iterator<Mahasiswa> it = data.iterator();
+        while(it.hasNext()) {
+            Mahasiswa mhs = it.next();
+            if(mhs.getNim().equals(nim)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     // -- inner class
 
     private class BtnEntryDataOnClick implements EventHandler<ActionEvent> {
 
         public void handle(ActionEvent event) {
-            MainUI.getEntryUI().show();
+            MainUI.getEntryUI().show(EntryDataUI.ADD_DATA);
             MainUI.getPrimaryStage().centerOnScreen();
             MainUI.getPrimaryStage().requestFocus();
         }

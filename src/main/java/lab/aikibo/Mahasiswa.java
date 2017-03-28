@@ -15,6 +15,8 @@ public class Mahasiswa {
     private boolean jenisKelamin; // true = pria
     private String alamat;
 
+    public Mahasiswa() {}
+
     public Mahasiswa(String nim, String nama, String tempatLahir, DateTime tanggalLahir, boolean jenisKelamin, String alamat) {
         this.nim = nim;
         this.nama = nama;
