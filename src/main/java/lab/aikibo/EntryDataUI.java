@@ -39,6 +39,7 @@ public class EntryDataUI {
     TextArea taAlamat;
     Button btnSimpan;
     Button btnHapus;
+    Button btnBatal;
 
     int state;
 
@@ -62,6 +63,7 @@ public class EntryDataUI {
         taAlamat = new TextArea();
         btnSimpan = new Button("Simpan");
         btnHapus = new Button("Hapus");
+        btnBatal = new Button("Batal");
 
         cbJenisKelamin.getItems().addAll("Laki-laki", "Perempuan");
         taAlamat.setMaxSize(200, 100);
@@ -87,23 +89,34 @@ public class EntryDataUI {
 
         HBox hbox = new HBox(5);
         hbox.setAlignment(Pos.CENTER_RIGHT);
-        hbox.getChildren().addAll(btnSimpan, btnHapus);
+        hbox.getChildren().addAll(btnSimpan, btnHapus, btnBatal);
         GridPane.setConstraints(hbox, 1, 7, 3, 1);
 
         gridPane.getChildren().addAll(lblNim, tfNim, lblNama, tfNama, lblTempatLahir, tfTempatLahir,
             lblTglLahir, dpTglLahir, lblJenisKelamin, cbJenisKelamin, lblAlamat, taAlamat, hbox);
 
         btnSimpan.setOnAction(new BtnSimpanOnClick());
+        btnBatal.setOnAction(new BtnBatalOnClick());
 
-        entryScene = new Scene(gridPane, 300, 350);
+        entryScene = new Scene(gridPane, 350, 350);
     }
 
     public void show(int state) {
         if(state == EntryDataUI.ADD_DATA) {
-            tfNim.clear();
+            clearForm();
+            btnHapus.setDisable(true);
         }
         getPrimaryStage().setScene(entryScene);
         getPrimaryStage().show();
+    }
+
+    private void clearForm() {
+        tfNim.clear();
+        tfNama.clear();
+        tfTempatLahir.clear();
+        dpTglLahir.setValue(null);
+        cbJenisKelamin.setValue(null);
+        taAlamat.clear();
     }
 
 
@@ -111,17 +124,39 @@ public class EntryDataUI {
 
     private class BtnSimpanOnClick implements EventHandler<ActionEvent> {
 
+        @SuppressWarnings("Since15")
         public void handle(ActionEvent event) {
-            if(getMhsUI().isExists(tfNim.getText())) {
+            Mahasiswa mhs = new Mahasiswa();
+            mhs.setNim(tfNim.getText());
+            mhs.setNama(tfNama.getText());
+            mhs.setTempatLahir(tfTempatLahir.getText());
+            mhs.setTanggalLahir(new DateTime(dpTglLahir.getValue().getYear(),
+                dpTglLahir.getValue().getMonthValue(), dpTglLahir.getValue().getDayOfMonth(), 0, 0));
+            mhs.setJenisKelamin(cbJenisKelamin.getValue().equals("Laki-laki"));
+            mhs.setAlamat(taAlamat.getText());
 
+            int idx;
+            if((idx = getMhsUI().isExists(tfNim.getText())) < 0) {
+                tfNim.setDisable(true);
+                getMhsUI().data.set(idx, mhs);
             } else {
-                Mahasiswa mhs = new Mahasiswa();
-                mhs.setNim(tfNim.getText());
-                mhs.setNama(tfNama.getText());
-                mhs.setTempatLahir(tfTempatLahir.getText());
-                mhs.setTanggalLahir(new DateTime(dpTglLahir.getValue().getYear(),
-                    dpTglLahir.getValue().getMonthValue(), dpTglLahir.getValue().getDayOfMonth(), 0, 0));
+                if(tfNim.getText() == null || tfNim.getText().trim().equals("")) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Kesalahan");
+                    alert.setHeaderText("Kesalahan Pengguna");
+                    alert.setContentText("Silahkan isikan Nomor Induk Mahasiswanya");
+                    alert.showAndWait();
+                    return;
+                }
+                getMhsUI().data.addAll(mhs);
             }
+            getMhsUI().show();
+        }
+    }
+
+    private class BtnBatalOnClick implements EventHandler<ActionEvent> {
+
+        public void handle(ActionEvent event) {
             getMhsUI().show();
         }
     }

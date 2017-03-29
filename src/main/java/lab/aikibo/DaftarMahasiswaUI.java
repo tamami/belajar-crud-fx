@@ -93,16 +93,16 @@ public class DaftarMahasiswaUI {
         getPrimaryStage().show();
     }
 
-    public boolean isExists(String nim) {
-        Iterator<Mahasiswa> it = data.iterator();
-        while(it.hasNext()) {
-            Mahasiswa mhs = it.next();
-            if(mhs.getNim().equals(nim)) {
-                return true;
+    // return index if exists
+    // return -1 if not
+    public int isExists(String nim) {
+        for(int i=0; i<data.size(); i++) {
+            if(data.get(i).getNim().equals(nim)) {
+                return i;
             }
         }
 
-        return false;
+        return -1;
     }
 
 
