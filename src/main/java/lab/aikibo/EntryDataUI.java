@@ -124,21 +124,28 @@ public class EntryDataUI {
 
     private class BtnSimpanOnClick implements EventHandler<ActionEvent> {
 
+        public Mahasiswa proses(String nim, String nama, String tempatLahir, DateTime tglLahir,
+                                boolean jnsKelamin, String alamat) {
+            Mahasiswa mhs = new Mahasiswa();
+            mhs.setNim(nim);
+            mhs.setNama(nama);
+            mhs.setTempatLahir(tempatLahir);
+            mhs.setTanggalLahir(tglLahir);
+            mhs.setJenisKelamin(jnsKelamin);
+            mhs.setAlamat(alamat);
+
+            return mhs;
+        }
+
         @SuppressWarnings("Since15")
         public void handle(ActionEvent event) {
-            Mahasiswa mhs = new Mahasiswa();
-            mhs.setNim(tfNim.getText());
-            mhs.setNama(tfNama.getText());
-            mhs.setTempatLahir(tfTempatLahir.getText());
-            mhs.setTanggalLahir(new DateTime(dpTglLahir.getValue().getYear(),
-                dpTglLahir.getValue().getMonthValue(), dpTglLahir.getValue().getDayOfMonth(), 0, 0));
-            mhs.setJenisKelamin(cbJenisKelamin.getValue().equals("Laki-laki"));
-            mhs.setAlamat(taAlamat.getText());
-
             int idx;
             if((idx = getMhsUI().isExists(tfNim.getText())) < 0) {
                 tfNim.setDisable(true);
-                getMhsUI().data.set(idx, mhs);
+                getMhsUI().data.set(idx, proses(tfNim.getText(), tfNama.getText(), tfTempatLahir.getText(),
+                        new DateTime(dpTglLahir.getValue().getYear(), dpTglLahir.getValue().getMonthValue(),
+                                dpTglLahir.getValue().getDayOfMonth(), 0, 0),
+                        cbJenisKelamin.getValue().equals("Laki-laki"), taAlamat.getText()));
             } else {
                 if(tfNim.getText() == null || tfNim.getText().trim().equals("")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -148,7 +155,10 @@ public class EntryDataUI {
                     alert.showAndWait();
                     return;
                 }
-                getMhsUI().data.addAll(mhs);
+                getMhsUI().data.addAll(proses(tfNim.getText(), tfNama.getText(), tfTempatLahir.getText(),
+                        new DateTime(dpTglLahir.getValue().getYear(), dpTglLahir.getValue().getMonthValue(),
+                                dpTglLahir.getValue().getDayOfMonth(), 0, 0),
+                        cbJenisKelamin.getValue().equals("Laki-laki"), taAlamat.getText()));
             }
             getMhsUI().show();
         }
