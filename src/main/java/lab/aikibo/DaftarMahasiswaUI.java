@@ -7,18 +7,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.joda.time.DateTime;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 import static lab.aikibo.MainUI.getPrimaryStage;
 
@@ -112,6 +106,23 @@ public class DaftarMahasiswaUI {
 
         public void handle(ActionEvent event) {
             MainUI.getEntryUI().show(EntryDataUI.ADD_DATA);
+            MainUI.getPrimaryStage().centerOnScreen();
+            MainUI.getPrimaryStage().requestFocus();
+        }
+    }
+
+    private class BtnUbahDataOnClick implements EventHandler<ActionEvent> {
+
+        public void handle(ActionEvent event) {
+            TablePosition pos = (TablePosition) tblMahasiswa.getSelectionModel().getSelectedCells().get(0);
+            int row = pos.getRow();
+
+            Item Item item = tblMahasiswa.getItems().get(row);
+            TableColumn col = pos.getTableColumn();
+
+            String data = (String) col.getCellObservableValue(0).getValue();
+            System.out.println(data);
+            MainUI.getEntryUI().show(EntryDataUI.EDIT_DATA);
             MainUI.getPrimaryStage().centerOnScreen();
             MainUI.getPrimaryStage().requestFocus();
         }

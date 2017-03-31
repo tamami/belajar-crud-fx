@@ -141,8 +141,7 @@ public class EntryDataUI {
         public void handle(ActionEvent event) {
             int idx;
             if((idx = getMhsUI().isExists(tfNim.getText())) < 0) {
-                tfNim.setDisable(true);
-                getMhsUI().data.set(idx, proses(tfNim.getText(), tfNama.getText(), tfTempatLahir.getText(),
+                getMhsUI().data.addAll(proses(tfNim.getText(), tfNama.getText(), tfTempatLahir.getText(),
                         new DateTime(dpTglLahir.getValue().getYear(), dpTglLahir.getValue().getMonthValue(),
                                 dpTglLahir.getValue().getDayOfMonth(), 0, 0),
                         cbJenisKelamin.getValue().equals("Laki-laki"), taAlamat.getText()));
@@ -155,7 +154,8 @@ public class EntryDataUI {
                     alert.showAndWait();
                     return;
                 }
-                getMhsUI().data.addAll(proses(tfNim.getText(), tfNama.getText(), tfTempatLahir.getText(),
+                tfNim.setDisable(true);
+                getMhsUI().data.set(idx, proses(tfNim.getText(), tfNama.getText(), tfTempatLahir.getText(),
                         new DateTime(dpTglLahir.getValue().getYear(), dpTglLahir.getValue().getMonthValue(),
                                 dpTglLahir.getValue().getDayOfMonth(), 0, 0),
                         cbJenisKelamin.getValue().equals("Laki-laki"), taAlamat.getText()));
