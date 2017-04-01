@@ -103,8 +103,10 @@ public class EntryDataUI {
     public void show(int state) {
         if(state == EntryDataUI.ADD_DATA) {
             clearForm();
+            tfNim.setEditable(true);
             btnHapus.setDisable(true);
         } else {
+            tfNim.setEditable(false);
             btnHapus.setDisable(false);
         }
         getPrimaryStage().setScene(entryScene);
@@ -169,6 +171,24 @@ public class EntryDataUI {
     }
 
 
+    // alert
+    private void panggilPesanInformasi(String header, String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informasi");
+        alert.setHeaderText(header);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+    private void panggilPesanError(String header, String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Kesalahan");
+        alert.setHeaderText(header);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+
     // -- inner class
 
     private class BtnSimpanOnClick implements EventHandler<ActionEvent> {
@@ -190,24 +210,24 @@ public class EntryDataUI {
         public void handle(ActionEvent event) {
             int idx;
             if((idx = getMhsUI().isExists(getTfNim().getText())) < 0) {
-                getMhsUI().data.addAll(proses(getTfNim().getText(), getTfNama().getText(), getTfTempatLahir().getText(),
+                if(getMhsUI().addData(getTfNim().getText(), getTfNama().getText(), getTfTempatLahir().getText(),
                         new DateTime(getDpTglLahir().getValue().getYear(), getDpTglLahir().getValue().getMonthValue(),
                                 getDpTglLahir().getValue().getDayOfMonth(), 0, 0),
-                        getCbJenisKelamin().getValue(), getTaAlamat().getText()));
+                        getCbJenisKelamin().getValue(), getTaAlamat().getText())) {
+                    panggilPesanInformasi("Informasi Tambah Data", "Data Berhasil Ditambahkan");
+                } else {
+                    panggilPesanInformasi("Informasi Penambahan Data", "Data Gagal Ditambahkan");
+                }
             } else {
                 if(getTfNim().getText() == null || getTfNim().getText().trim().equals("")) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Kesalahan");
-                    alert.setHeaderText("Kesalahan Pengguna");
-                    alert.setContentText("Silahkan isikan Nomor Induk Mahasiswanya");
-                    alert.showAndWait();
+                    panggilPesanError("Kesalahan Pengguna", "Silahkan isikan Nomor Induk Mahasiswa lebih dulu");
                     return;
                 }
                 getTfNim().setDisable(true);
-                getMhsUI().data.set(idx, proses(getTfNim().getText(), getTfNama().getText(), getTfTempatLahir().getText(),
+                getMhsUI().updateData(idx, getTfNim().getText(), getTfNama().getText(), getTfTempatLahir().getText(),
                         new DateTime(getDpTglLahir().getValue().getYear(), getDpTglLahir().getValue().getMonthValue(),
                                 getDpTglLahir().getValue().getDayOfMonth(), 0, 0),
-                        getCbJenisKelamin().getValue(), getTaAlamat().getText()));
+                        getCbJenisKelamin().getValue(), getTaAlamat().getText());
             }
             getMhsUI().show();
         }
@@ -222,7 +242,10 @@ public class EntryDataUI {
 
     private class BtnHapusOnClick implements EventHandler<ActionEvent> {
         public void handle(ActionEvent event) {
+            int idx;
+            if((idx = getMhsUI().isExists(getTfNim().getText())) < 0) {
 
+            }
         }
     }
 
