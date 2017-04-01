@@ -3,21 +3,23 @@ package lab.aikibo;
 
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
+
 /**
  * Created by tamami on 26/03/17.
  */
-public class Mahasiswa {
+public class Mahasiswa implements Serializable {
 
     private String nim;
     private String nama;
     private String tempatLahir;
     private DateTime tanggalLahir;
-    private boolean jenisKelamin; // true = pria
+    private String jenisKelamin;
     private String alamat;
 
     public Mahasiswa() {}
 
-    public Mahasiswa(String nim, String nama, String tempatLahir, DateTime tanggalLahir, boolean jenisKelamin, String alamat) {
+    public Mahasiswa(String nim, String nama, String tempatLahir, DateTime tanggalLahir, String jenisKelamin, String alamat) {
         this.nim = nim;
         this.nama = nama;
         this.tempatLahir = tempatLahir;
@@ -50,27 +52,21 @@ public class Mahasiswa {
         this.tempatLahir = tempatLahir;
     }
 
-    //public Date getTanggalLahir() {
-    //    return tanggalLahir;
-    //}
-
     public String getTanggalLahir() {
-        return tanggalLahir.getDayOfMonth() + "-" + tanggalLahir.getMonthOfYear() + "-" + tanggalLahir.getYear();
+        return String.format("%02d", tanggalLahir.getDayOfMonth()) + "-" +
+               String.format("%02d", tanggalLahir.getMonthOfYear()) + "-" +
+               String.format("%04d", tanggalLahir.getYear());
     }
 
     public void setTanggalLahir(DateTime tanggalLahir) {
         this.tanggalLahir = tanggalLahir;
     }
 
-    public boolean isJenisKelamin() {
+    public String getJenisKelamin() {
         return jenisKelamin;
     }
 
-    public String getJenisKelamin() {
-        return (jenisKelamin) ? "Laki-laki" : "Perempuan";
-    }
-
-    public void setJenisKelamin(boolean jenisKelamin) {
+    public void setJenisKelamin(String jenisKelamin) {
         this.jenisKelamin = jenisKelamin;
     }
 
