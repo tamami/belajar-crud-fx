@@ -1,15 +1,6 @@
 package lab.aikibo;
 
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 
@@ -22,14 +13,14 @@ public class MainUI extends Application {
     private static EntryDataUI entryUI;
     private static Stage primaryStage;
 
-    private void initComponent() {
-        mhsUI = new DaftarMahasiswaUI();
+    private void initComponent(Stage stage) {
+        mhsUI = new DaftarMahasiswaUI(stage);
         entryUI = new EntryDataUI();
     }
 
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        initComponent();
+        initComponent(primaryStage);
 
         if(mhsUI == null) {
             throw new Exception("Aplikasi error, UI Daftar Mahasiswa belum disiapkan");

@@ -222,7 +222,7 @@ public class EntryDataUI {
 
     private class BtnHapusOnClick implements EventHandler<ActionEvent> {
         public void handle(ActionEvent event) {
-            
+
         }
     }
 
