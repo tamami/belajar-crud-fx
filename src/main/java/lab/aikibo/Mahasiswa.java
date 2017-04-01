@@ -8,6 +8,7 @@ import java.io.Serializable;
 /**
  * Created by tamami on 26/03/17.
  */
+// soal nomor 1
 public class Mahasiswa implements Serializable {
 
     private String nim;
