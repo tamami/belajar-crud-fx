@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import org.joda.time.DateTime;
 
 import static lab.aikibo.MainUI.getMhsUI;
@@ -22,26 +21,26 @@ public class EntryDataUI {
     public static final int ADD_DATA = 1;
     public static final int EDIT_DATA = 2;
 
-    Scene entryScene;
-    GridPane gridPane;
+    private Scene entryScene;
+    private GridPane gridPane;
 
-    TextField tfNim;
-    Label lblNim;
-    Label lblNama;
-    TextField tfNama;
-    Label lblTempatLahir;
-    TextField tfTempatLahir;
-    Label lblTglLahir;
-    DatePicker dpTglLahir;
-    Label lblJenisKelamin;
-    ComboBox<String> cbJenisKelamin;
-    Label lblAlamat;
-    TextArea taAlamat;
-    Button btnSimpan;
-    Button btnHapus;
-    Button btnBatal;
+    private TextField tfNim;
+    private Label lblNim;
+    private Label lblNama;
+    private TextField tfNama;
+    private Label lblTempatLahir;
+    private TextField tfTempatLahir;
+    private Label lblTglLahir;
+    private DatePicker dpTglLahir;
+    private Label lblJenisKelamin;
+    private ComboBox<String> cbJenisKelamin;
+    private Label lblAlamat;
+    private TextArea taAlamat;
+    private Button btnSimpan;
+    private Button btnHapus;
+    private Button btnBatal;
 
-    int state;
+    private int state;
 
     public EntryDataUI() {
         getPrimaryStage().setTitle("Entry Data");
@@ -50,24 +49,24 @@ public class EntryDataUI {
 
     private void initComponents() {
         lblNim = new Label("NIM");
-        tfNim = new TextField();
+        setTfNim(new TextField());
         lblNama = new Label("Nama");
-        tfNama = new TextField();
+        setTfNama(new TextField());
         lblTempatLahir = new Label("Tempat Lahir");
-        tfTempatLahir = new TextField();
+        setTfTempatLahir(new TextField());
         lblTglLahir = new Label("Tanggal Lahir");
-        dpTglLahir = new DatePicker();
+        setDpTglLahir(new DatePicker());
         lblJenisKelamin = new Label("Jenis Kelamin");
-        cbJenisKelamin = new ComboBox<String>();
+        setCbJenisKelamin(new ComboBox<String>());
         lblAlamat = new Label("Alamat");
-        taAlamat = new TextArea();
+        setTaAlamat(new TextArea());
         btnSimpan = new Button("Simpan");
         btnHapus = new Button("Hapus");
         btnBatal = new Button("Batal");
 
-        cbJenisKelamin.getItems().addAll("Laki-laki", "Perempuan");
-        taAlamat.setMaxSize(200, 100);
-        taAlamat.setWrapText(true);
+        getCbJenisKelamin().getItems().addAll("Laki-laki", "Perempuan");
+        getTaAlamat().setMaxSize(200, 100);
+        getTaAlamat().setWrapText(true);
 
         gridPane = new GridPane();
         gridPane.setHgap(5);
@@ -75,25 +74,25 @@ public class EntryDataUI {
         gridPane.setPadding(new Insets(10, 5, 0, 10)); // padding for gridpane
 
         GridPane.setConstraints(lblNim, 1, 1);
-        GridPane.setConstraints(tfNim, 2, 1);
+        GridPane.setConstraints(getTfNim(), 2, 1);
         GridPane.setConstraints(lblNama, 1, 2);
-        GridPane.setConstraints(tfNama, 2, 2);
+        GridPane.setConstraints(getTfNama(), 2, 2);
         GridPane.setConstraints(lblTempatLahir, 1, 3);
-        GridPane.setConstraints(tfTempatLahir, 2, 3);
+        GridPane.setConstraints(getTfTempatLahir(), 2, 3);
         GridPane.setConstraints(lblTglLahir, 1, 4);
-        GridPane.setConstraints(dpTglLahir, 2, 4);
+        GridPane.setConstraints(getDpTglLahir(), 2, 4);
         GridPane.setConstraints(lblJenisKelamin, 1, 5);
-        GridPane.setConstraints(cbJenisKelamin, 2, 5);
+        GridPane.setConstraints(getCbJenisKelamin(), 2, 5);
         GridPane.setConstraints(lblAlamat, 1, 6);
-        GridPane.setConstraints(taAlamat, 2, 6);
+        GridPane.setConstraints(getTaAlamat(), 2, 6);
 
         HBox hbox = new HBox(5);
         hbox.setAlignment(Pos.CENTER_RIGHT);
         hbox.getChildren().addAll(btnSimpan, btnHapus, btnBatal);
         GridPane.setConstraints(hbox, 1, 7, 3, 1);
 
-        gridPane.getChildren().addAll(lblNim, tfNim, lblNama, tfNama, lblTempatLahir, tfTempatLahir,
-            lblTglLahir, dpTglLahir, lblJenisKelamin, cbJenisKelamin, lblAlamat, taAlamat, hbox);
+        gridPane.getChildren().addAll(lblNim, getTfNim(), lblNama, getTfNama(), lblTempatLahir, getTfTempatLahir(),
+            lblTglLahir, getDpTglLahir(), lblJenisKelamin, getCbJenisKelamin(), lblAlamat, getTaAlamat(), hbox);
 
         btnSimpan.setOnAction(new BtnSimpanOnClick());
         btnBatal.setOnAction(new BtnBatalOnClick());
@@ -105,18 +104,68 @@ public class EntryDataUI {
         if(state == EntryDataUI.ADD_DATA) {
             clearForm();
             btnHapus.setDisable(true);
+        } else {
+            btnHapus.setDisable(false);
         }
         getPrimaryStage().setScene(entryScene);
         getPrimaryStage().show();
     }
 
     private void clearForm() {
-        tfNim.clear();
-        tfNama.clear();
-        tfTempatLahir.clear();
-        dpTglLahir.setValue(null);
-        cbJenisKelamin.setValue(null);
-        taAlamat.clear();
+        getTfNim().clear();
+        getTfNama().clear();
+        getTfTempatLahir().clear();
+        getDpTglLahir().setValue(null);
+        getCbJenisKelamin().setValue(null);
+        getTaAlamat().clear();
+    }
+
+    public TextField getTfNim() {
+        return tfNim;
+    }
+
+    public void setTfNim(TextField tfNim) {
+        this.tfNim = tfNim;
+    }
+
+    public TextField getTfNama() {
+        return tfNama;
+    }
+
+    public void setTfNama(TextField tfNama) {
+        this.tfNama = tfNama;
+    }
+
+    public TextField getTfTempatLahir() {
+        return tfTempatLahir;
+    }
+
+    public void setTfTempatLahir(TextField tfTempatLahir) {
+        this.tfTempatLahir = tfTempatLahir;
+    }
+
+    public DatePicker getDpTglLahir() {
+        return dpTglLahir;
+    }
+
+    public void setDpTglLahir(DatePicker dpTglLahir) {
+        this.dpTglLahir = dpTglLahir;
+    }
+
+    public ComboBox<String> getCbJenisKelamin() {
+        return cbJenisKelamin;
+    }
+
+    public void setCbJenisKelamin(ComboBox<String> cbJenisKelamin) {
+        this.cbJenisKelamin = cbJenisKelamin;
+    }
+
+    public TextArea getTaAlamat() {
+        return taAlamat;
+    }
+
+    public void setTaAlamat(TextArea taAlamat) {
+        this.taAlamat = taAlamat;
     }
 
 
@@ -125,7 +174,7 @@ public class EntryDataUI {
     private class BtnSimpanOnClick implements EventHandler<ActionEvent> {
 
         public Mahasiswa proses(String nim, String nama, String tempatLahir, DateTime tglLahir,
-                                boolean jnsKelamin, String alamat) {
+                                String jnsKelamin, String alamat) {
             Mahasiswa mhs = new Mahasiswa();
             mhs.setNim(nim);
             mhs.setNama(nama);
@@ -140,13 +189,13 @@ public class EntryDataUI {
         @SuppressWarnings("Since15")
         public void handle(ActionEvent event) {
             int idx;
-            if((idx = getMhsUI().isExists(tfNim.getText())) < 0) {
-                getMhsUI().data.addAll(proses(tfNim.getText(), tfNama.getText(), tfTempatLahir.getText(),
-                        new DateTime(dpTglLahir.getValue().getYear(), dpTglLahir.getValue().getMonthValue(),
-                                dpTglLahir.getValue().getDayOfMonth(), 0, 0),
-                        cbJenisKelamin.getValue().equals("Laki-laki"), taAlamat.getText()));
+            if((idx = getMhsUI().isExists(getTfNim().getText())) < 0) {
+                getMhsUI().data.addAll(proses(getTfNim().getText(), getTfNama().getText(), getTfTempatLahir().getText(),
+                        new DateTime(getDpTglLahir().getValue().getYear(), getDpTglLahir().getValue().getMonthValue(),
+                                getDpTglLahir().getValue().getDayOfMonth(), 0, 0),
+                        getCbJenisKelamin().getValue(), getTaAlamat().getText()));
             } else {
-                if(tfNim.getText() == null || tfNim.getText().trim().equals("")) {
+                if(getTfNim().getText() == null || getTfNim().getText().trim().equals("")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Kesalahan");
                     alert.setHeaderText("Kesalahan Pengguna");
@@ -154,11 +203,11 @@ public class EntryDataUI {
                     alert.showAndWait();
                     return;
                 }
-                tfNim.setDisable(true);
-                getMhsUI().data.set(idx, proses(tfNim.getText(), tfNama.getText(), tfTempatLahir.getText(),
-                        new DateTime(dpTglLahir.getValue().getYear(), dpTglLahir.getValue().getMonthValue(),
-                                dpTglLahir.getValue().getDayOfMonth(), 0, 0),
-                        cbJenisKelamin.getValue().equals("Laki-laki"), taAlamat.getText()));
+                getTfNim().setDisable(true);
+                getMhsUI().data.set(idx, proses(getTfNim().getText(), getTfNama().getText(), getTfTempatLahir().getText(),
+                        new DateTime(getDpTglLahir().getValue().getYear(), getDpTglLahir().getValue().getMonthValue(),
+                                getDpTglLahir().getValue().getDayOfMonth(), 0, 0),
+                        getCbJenisKelamin().getValue(), getTaAlamat().getText()));
             }
             getMhsUI().show();
         }
@@ -168,6 +217,12 @@ public class EntryDataUI {
 
         public void handle(ActionEvent event) {
             getMhsUI().show();
+        }
+    }
+
+    private class BtnHapusOnClick implements EventHandler<ActionEvent> {
+        public void handle(ActionEvent event) {
+            
         }
     }
 
