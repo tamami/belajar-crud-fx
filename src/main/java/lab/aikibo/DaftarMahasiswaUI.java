@@ -33,6 +33,7 @@ public class DaftarMahasiswaUI {
 
     private VBox vbox;
 
+    // soal nomor 2
     public static ObservableList<Mahasiswa> data;
     private Scene scene;
     private Scene mainScene;
@@ -113,6 +114,23 @@ public class DaftarMahasiswaUI {
         return -1;
     }
 
+    // soal nomor 3
+    public boolean addData(String nim, String nama, String tempatLahir, DateTime tglLahir,
+                           String jnsKelamin, String alamat) {
+        Mahasiswa mhs = new Mahasiswa(nim, nama, tempatLahir, tglLahir, jnsKelamin, alamat);
+        data.addAll(mhs);
+        return true;
+    }
+
+    // soal nomor 4
+    public boolean updateData(int idx, String nim, String nama, String tempatLahir, DateTime tglLahir,
+                              String jnsKelamin, String alamat) {
+        Mahasiswa mhs = new Mahasiswa(nim, nama, tempatLahir, tglLahir, jnsKelamin, alamat);
+        data.set(idx, mhs);
+        return true;
+    }
+
+
     private LinkedList<Mahasiswa> convertToListSerializable(ObservableList<Mahasiswa> data) {
         LinkedList<Mahasiswa> result = new LinkedList();
 
@@ -163,6 +181,11 @@ public class DaftarMahasiswaUI {
             System.out.println("Kesalahan nama kelas");
         }
         return true;
+    }
+
+    // soal nomor 5
+    public boolean hapus(String nim) {
+        return false;
     }
 
 
